@@ -1,9 +1,12 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +19,27 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::get('/board', [BoardController::class, 'show'])->name('boards.show');
+    Route::get('/boards', [BoardController::class, 'index'])->name('boards');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+   })->name('dashboard');
 });
 
+
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('home');
+
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [PostController::class, 'index'])->name('dashboard')->middleware('can:show posts');
+    Route::get('/wall', [PostController::class, 'index'])->name('wall')->middleware('can:show posts');
 
     Route::get('add-post', [PostController::class, 'create'])->name('add-post')->middleware('can:add posts');
     Route::post('store-post', [PostController::class, 'store'])->name('store-post')->middleware('can:add posts');
@@ -32,5 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class)->middleware('role:super-user');
     Route::resource('users', UserController::class)->middleware('role:super-user');
 });
+
+
 
 require __DIR__.'/auth.php';

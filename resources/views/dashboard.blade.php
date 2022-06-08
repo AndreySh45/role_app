@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 <p>{{$post->created_at}}</p>
                                 <h5 class="card-title">Special title</h5>
-                                <p class="card-text">With supporting</p>
+                                <p class="card-text">{{$post->text}}</p>
                                 @if(auth()->user()->can('edit posts'))
                                     <a href="{{route('edit-post', $post->id)}}" class="btn btn-primary">Edit</a>
                                 @endif
