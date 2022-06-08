@@ -22,6 +22,7 @@ use App\Http\Controllers\BoardController;
 Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('/board', [BoardController::class, 'show'])->name('boards.show');
     Route::get('/boards', [BoardController::class, 'index'])->name('boards');
+    Route::post('/boards', [BoardController::class, 'store'])->name('boards.store');
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
    })->name('dashboard');
