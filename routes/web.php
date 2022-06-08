@@ -20,7 +20,8 @@ use App\Http\Controllers\BoardController;
 */
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
-    Route::get('/board', [BoardController::class, 'show'])->name('boards.show');
+    Route::get('/board/{board}', [BoardController::class, 'show'])->name('boards.show');
+    Route::put('/boards/{board}', [BoardController::class, 'update'])->name('boards.update');
     Route::get('/boards', [BoardController::class, 'index'])->name('boards');
     Route::post('/boards', [BoardController::class, 'store'])->name('boards.store');
     Route::get('/dashboard', function () {

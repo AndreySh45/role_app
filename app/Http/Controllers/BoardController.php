@@ -16,9 +16,22 @@ class BoardController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(Board $board)
     {
-        return Inertia::render('Board');
+        return Inertia::render('Board', [
+            'board' => $board
+        ]);
+    }
+
+    public function update(Board $board)
+    {
+        request()->validate([
+            'name' => ['required', 'max:255']
+        ]);
+
+        $board->update(['name' => request('name')]);
+
+        return redirect()->back();
     }
 
     public function store()
