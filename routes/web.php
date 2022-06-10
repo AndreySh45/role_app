@@ -7,6 +7,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\CardListController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
    })->name('dashboard');
+
+   Route::post('/boards/{board}/lists', [CardListController::class, 'store'])->name('cardLists.store');
 });
 
 
