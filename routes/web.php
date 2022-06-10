@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -31,6 +32,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
    })->name('dashboard');
 
    Route::post('/boards/{board}/lists', [CardListController::class, 'store'])->name('cardLists.store');
+   Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
 });
 
 

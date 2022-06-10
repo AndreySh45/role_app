@@ -2,10 +2,18 @@
 import {DotsHorizontalIcon, PencilIcon, PlusIcon} from "@heroicons/vue/solid";
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue';
 import CardListItemCreateForm from "@/Pages/Boards/CardListItemCreateForm";
+import {ref} from "vue";
 
 const props = defineProps({
   list: Object
 });
+
+const listRef = ref();
+
+function onCardCreated() {
+  listRef.value.scrollTop = listRef.value.scrollHeight;
+}
+
 </script>
 
 <template>
@@ -41,7 +49,7 @@ const props = defineProps({
     </Menu>
   </div>
   <div class="pb-3 flex flex-col overflow-hidden">
-    <div class="px-3 flex-1 overflow-y-auto">
+    <div ref="listRef" class="px-3 flex-1 overflow-y-auto">
       <ul class="space-y-3">
         <li
           v-for="card in list.cards"
@@ -60,11 +68,8 @@ const props = defineProps({
     <div class="px-3 mt-3">
       <CardListItemCreateForm
           :list="list"
+          @created="onCardCreated()"
       />
-      <button class="flex items-center p-2 text-sm font-medium text-gray-600 hover:text-black hover:bg-gray-300 w-full rounded-md">
-        <PlusIcon class="h-5 w-5"></PlusIcon>
-        <span class="ml-1">Add card</span>
-      </button>
     </div>
   </div>
 </div>
