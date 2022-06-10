@@ -19,7 +19,7 @@ class Board extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function lists (): HasMany
+    public function lists(): HasMany
     {
         return $this->hasMany(CardList::class);
     }
