@@ -25,4 +25,15 @@ class CardController extends Controller
 
         return redirect()->back();
     }
+
+    public function update(Card $card)
+    {
+        request()->validate([
+            'title' => ['required']
+        ]);
+
+        $card->update(['title' => request('title')]);
+
+        return redirect()->back();
+    }
 }

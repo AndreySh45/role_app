@@ -1,6 +1,10 @@
 const mix = require('laravel-mix');
 mix.disableNotifications();
-
+/* module.exports = {
+   output: {
+   chunkFilename: 'js/[name].js?id=[chunkhash]',
+ }
+};*/
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -21,6 +25,9 @@ mix.js('resources/js/app.js', 'public/js')
     ])
     .alias({
         '@': 'resources/js',
+    })
+    .webpackConfig({
+      output: { chunkFilename: 'js/[name].js?id=[chunkhash]' }
     });
 
 if (mix.inProduction()) {
