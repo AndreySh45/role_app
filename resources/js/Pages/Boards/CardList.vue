@@ -2,17 +2,49 @@
 import {DotsHorizontalIcon} from "@heroicons/vue/solid";
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue';
 import CardListItemCreateForm from "@/Pages/Boards/CardListItemCreateForm";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import CardListItem from "@/Pages/Boards/CardListItem";
+import Draggable from 'vuedraggable'
+import {Inertia} from "@inertiajs/inertia";
 
 const props = defineProps({
   list: Object
 });
 
 const listRef = ref();
+const cards = ref(props.list.cards);
+
+watch(() => props.list.cards, (newCards) => cards.value = newCards);
 
 function onCardCreated() {
   listRef.value.scrollTop = listRef.value.scrollHeight;
+}
+
+function onChange(e) {
+  let item = e.added || e.moved;
+
+  if (!item) return;
+
+  let index = item.newIndex;
+  let prevCard = cards.value[index - 1];
+  let nextCard = cards.value[index + 1];
+  let card = cards.value[index];
+
+  let position = card.position;
+
+  if (prevCard && nextCard) {
+    position = (prevCard.position + nextCard.position) / 2;
+  } else if (prevCard) {
+    position = prevCard.position + (prevCard.position / 2);
+  } else if (nextCard) {
+    position = nextCard.position / 2;
+  }
+
+  Inertia.put(route('cards.move', {card: card.id}), {
+    position: position,
+    cardListId: props.list.id
+  });
+  console.log(e);
 }
 
 </script>
@@ -49,16 +81,22 @@ function onCardCreated() {
       </transition>
     </Menu>
   </div>
-  <div class="pb-3 flex flex-col overflow-hidden">
+  <div class="flex overflow-hidden flex-col pb-3">
     <div ref="listRef" class="px-3 flex-1 overflow-y-auto">
-      <ul class="space-y-3">
-        <CardListItem
-            v-for="card in list.cards"
-            :key="card.id"
-            :card="card"
-            class="group relative bg-white p-3 shadow rounded-md border-b border-gray-300 hover:bg-gray-50"
-          />
-      </ul>
+      <Draggable
+          v-model="cards"
+          class="space-y-3"
+          drag-class="drag"
+          ghost-class="ghost"
+          group="cards"
+          item-key="id"
+          tag="ul"
+          @change="onChange"
+          >
+          <template #item="{element}">
+            <CardListItem :card="element" />
+          </template>
+      </Draggable>
     </div>
 
     <div class="px-3 mt-3">

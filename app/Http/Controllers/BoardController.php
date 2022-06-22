@@ -18,7 +18,9 @@ class BoardController extends Controller
 
     public function show(Board $board)
     {
-        $board->load('lists.cards');
+        $board->load([
+            'lists.cards' => fn($query) => $query->orderBy('position')
+        ]);
 
         return Inertia::render('Boards/Show', [
             'board' => $board

@@ -14,17 +14,4 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-docker/mysql/datadir/#ib_16384_0.dblwr
-docker/mysql/datadir/role_app/migrations.ibd
-docker/mysql/datadir/#ib_16384_0.dblwr
 .gitignore
-.gitignore
-.gitignore
-docker/mysql/datadir/mysql.ibd
-.gitignore
-docker/mysql/datadir/undo_002
-docker/mysql/datadir/#ib_16384_0.dblwr
-docker/mysql/datadir/binlog.index
-docker/mysql/datadir/ib_buffer_pool
-docker/mysql/datadir/ib_logfile0
-docker/mysql/datadir/undo_002
