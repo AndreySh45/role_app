@@ -1,7 +1,7 @@
 <script setup>
 import {PencilIcon} from "@heroicons/vue/solid";
 import {computed, nextTick, ref} from "vue";
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm, InertiaLink} from "@inertiajs/inertia-vue3";
 import {store} from "@/store";
 
 const props = defineProps({
@@ -33,6 +33,7 @@ function onSubmit() {
     class="group relative bg-white p-2 shadow rounded-md border-b border-gray-300 hover:bg-gray-50"
     >
       <form
+        class="p-2.5"
         v-if="isShowingForm"
         @keydown.esc="store.editingCardId = null"
         @submit.prevent="onSubmit()"
@@ -63,10 +64,13 @@ function onSubmit() {
 
 
       <template v-if="!isShowingForm">
-        <a
-          class="text-sm"
-          href="#"
-        >{{ card.title }}</a>
+        <InertiaLink
+          class="text-sm block p-2.5"
+          :href="route('boards.show', {board: card.board_id, card: card.id})"
+          preserve-state
+        >
+          {{ card.title }}
+        </InertiaLink>
 
         <button
           class="hidden absolute top-1 right-1 w-8 h-8 bg-gray-50 group-hover:grid place-content-center rounded-md text-gray-600 hover:text-black hover:bg-gray-200"

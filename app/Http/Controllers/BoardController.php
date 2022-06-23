@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Card;
 use Inertia\Inertia;
 use App\Models\Board;
 use Illuminate\Http\Request;
@@ -16,14 +17,15 @@ class BoardController extends Controller
         ]);
     }
 
-    public function show(Board $board)
+    public function show(Board $board, Card $card = null)
     {
         $board->load([
             'lists.cards' => fn($query) => $query->orderBy('position')
         ]);
 
         return Inertia::render('Boards/Show', [
-            'board' => $board
+            'board' => $board,
+            'card' => $card
         ]);
     }
 

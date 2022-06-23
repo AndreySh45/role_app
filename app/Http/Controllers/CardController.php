@@ -32,7 +32,14 @@ class CardController extends Controller
             'title' => ['required']
         ]);
 
-        $card->update(['title' => request('title')]);
+        $card->update([
+            'title' => request('title'),
+            'description' => request()->has('description') ? request('description') : $card->description,
+        ]);
+
+        if (request()->has('redirectUrl')) {
+            return redirect(request('redirectUrl'));
+        }
 
         return redirect()->back();
     }
@@ -51,4 +58,11 @@ class CardController extends Controller
 
         return redirect()->back();
     }
+
+    public function destroy(Card $card)
+    {
+        $card->delete();
+        return redirect()->route('boards.show', ['board' => $card->board_id]);
+    }
+
 }
