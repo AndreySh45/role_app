@@ -23,7 +23,7 @@ use App\Http\Controllers\CardListController;
 */
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
-    Route::get('/board/{board}/{card?}', [BoardController::class, 'show'])->name('boards.show');
+    Route::get('/boards/{board}/{card?}', [BoardController::class, 'show'])->name('boards.show');
     Route::put('/boards/{board}', [BoardController::class, 'update'])->name('boards.update');
     Route::get('/boards', [BoardController::class, 'index'])->name('boards');
     Route::post('/boards', [BoardController::class, 'store'])->name('boards.store');

@@ -66,8 +66,7 @@ function onSubmit() {
       <template v-if="!isShowingForm">
         <InertiaLink
           class="text-sm block p-2.5"
-          :href="route('boards.show', {board: card.board_id, card: card.id})"
-          preserve-state
+          :href="route('boards.show', {board: card.board_id, card: card.id})" preserve-state
         >
           {{ card.title }}
         </InertiaLink>
